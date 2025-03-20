@@ -16,16 +16,16 @@ class Command(BaseCommand):
         ]
 
         Product.objects.all().delete()
-        
+
         for _ in range(50):
             Product.objects.create(
-                name=fake.word().capitalize(),
+                name=fake.unique.word().capitalize(),
                 category=random.choice(categories_objects),
                 nomenclature=fake.unique.uuid4(),
                 description=fake.text(max_nb_chars=100),
                 price=random.randint(1, 100),
                 discount=random.randint(1, 35),
-                attributes={"colour": fake.color_name()}
+                attributes={"colour": fake.color_name()},
             )
 
         self.stdout.write(self.style.SUCCESS("Successfully addd 50 products"))
