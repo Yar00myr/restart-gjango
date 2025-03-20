@@ -1,10 +1,43 @@
 {% extends 'shop/base.html' %}
 
+{% load maths_filters%}
+
 {% block content %}
     <div class="container">
         <div class="text-center mt-5">
             <h1>This is home page</h1>
-            <p>Hello!</p>
+            <div class="row row-cols-1 row-cols-md3 g-4">
+
+                    {% for product in products %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm">
+                            <img
+                            src="{{ product.image_path|default:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8pblnvVY-4jyLswE1TmeukrgvRVC6Kz3Vtg&s' }}"
+                            alt="{{product.name}}"
+                            class="card-img-top"
+                            style="width: 50px; height: 50px"
+                            />
+                            <div class="card-body">
+                                <h5 class="card-title"> 
+                                    {{product.name}}
+                                </h5>
+                                    {% if product.discount %}
+                                    <span class="text-success">
+                                        {{product.price|calculate_discount:product.discount|floatformat:2}}
+                                    </span>
+                                    <span class="text-muted text-decoration-line-through">
+                                        {{product.price|floatformat:2}}
+                                    </span>
+                                    {% else %}
+                                        <span>
+                                            {{product.price|floatformat:2}}
+                                        </span>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

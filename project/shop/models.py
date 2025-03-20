@@ -41,7 +41,7 @@ class Product(models.Model):
     discount = models.DecimalField(default=0.0,max_digits=8, decimal_places=2)
 
     def __str__(self):
-        return f"{self.name, self.nomenclature}"
+        return f"{self.name}, {self.nomenclature}"
 
     class Meta:
         ordering = ["-created_at"]
