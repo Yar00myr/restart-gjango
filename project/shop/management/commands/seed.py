@@ -5,6 +5,7 @@ from shop.models import Category, Product
 
 
 class Command(BaseCommand):
+
     hepl = "Generates test data for databases"
 
     def handle(self, *args, **options):
@@ -24,7 +25,10 @@ class Command(BaseCommand):
                 nomenclature=fake.unique.uuid4(),
                 description=fake.text(max_nb_chars=100),
                 price=random.randint(1, 100),
-                discount=random.randint(1, 35),
+                discount=random.randint(1, 51),
+                available=random.choice([True, False]),
+                entity=random.randint(1, 1000),
+                rating=round(random.uniform(0.1, 5.0), 1),
                 attributes={"colour": fake.color_name()},
             )
 

@@ -21,6 +21,9 @@
                                 <h5 class="card-title"> 
                                     {{product.name}}
                                 </h5>
+                                {% if not product.available %}
+                                    <p class="text-danger">Sold out</p>
+                                {% else %}
                                     {% if product.discount %}
                                     <span class="text-success">
                                         {{product.price|calculate_discount:product.discount|floatformat:2}}
@@ -33,6 +36,7 @@
                                             {{product.price|floatformat:2}}
                                         </span>
                                     {% endif %}
+                                {% endif %}
                             </div>
                         </div>
                     </div>
