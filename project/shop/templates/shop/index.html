@@ -22,7 +22,7 @@
                                     {{product.name}}
                                 </h5>
                                 {% if not product.available %}
-                                    <p class="text-danger">Sold out</p>
+                                    <p class="text-danger">Out of stock</p>
                                 {% else %}
                                     {% if product.discount %}
                                     <span class="text-success">
@@ -37,6 +37,15 @@
                                         </span>
                                     {% endif %}
                                 {% endif %}
+                            </div>
+                            <div class="product-rating text-center">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= product.rating %}
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                    {% else %}
+                                        <i class="bi bi-star text-muted"></i>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
