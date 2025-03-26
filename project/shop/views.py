@@ -9,16 +9,18 @@ def home(request):
     filter_name = request.GET.get("filter")
 
     if category_name:
-        product = products.filter(category_name=category_name)
+        category = Category.objects.get(name=category_name)
+        products = products.filter(category=category)
 
-    if filter_name == "price_increase":
-        product = product.order_by("price")
-    elif filter_name == "price_decrease":
-        product = product.order_by("-price")
-    elif filter == "increase_rating":
-        products = products.order_by("rating")
-    else:
-        products = products.order_by("-rating")
+    match filter_name:
+        case "price_increase":
+            products = products.order_by("price")
+        case "price_decrease":
+            products = products.order_by("-price")
+        case "rating_increase":
+            products = products.order_by("rating")
+        case "rating_decrease":
+            products = products.order_by("-rating")
     return render(
         request, "shop/index.html", {"products": products, "categories": categories}
     )
