@@ -28,7 +28,7 @@
                 {% endif %}
                 {% if product.discount %}
                     <span class="text-success">
-                        ${{ product.price|calculate_discount:product.discount }}
+                        ${{ product.price|calculate_discount:product.discount|floatformat:2 }}
                     </span>
                     <span class="text-muted text-decoration-line-through">
                         ${{ product.price }}
