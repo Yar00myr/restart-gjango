@@ -20,19 +20,23 @@
                     action="{%url 'shop:home' %}"
                     method="GET" 
                     class="d-flex mx-auto">
-                        <select name="category" id="" 
+                        <select name="category"
                         class="form-select me-3" 
                         onchange="this.form.submit()">
-                            <option value="{{category.name}}"
-                            {% if request.GET.filter == category.name %}
-                                selected    
+                            <option value=""
+                            {% if not request.GET.category %}
+                                selected
                             {% endif %}
                             >Category</option>
                             {% for category in categories %}
-                                <option value="{{category.name}}"> {{category.name}}</option>
+                            <option value="{{ category.name }}" 
+                            {% if request.GET.category == category.name %}
+                                selected
+                            {% endif %}>
+                            {{ category.name }}</option>
                             {% endfor %}
                         </select>
-                        <select name="filter" id=""
+                        <select name="filter"
                         class="form-select me-3"
                         onchange="this.form.submit()">
                             <option value="" 

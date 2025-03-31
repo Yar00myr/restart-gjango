@@ -44,12 +44,10 @@ def home(request):
 
         case "rating_decrease":
             products = products.order_by("-rating")
-            
-    length = len(products)
 
-    return render(
-        request, "shop/index.html", {"products": products, "categories": categories, "length": length}
-    )
+    length = len(products)
+    context = {"products": products, "categories": categories, "length": length}
+    return render(request, "shop/index.html", context=context)
 
 
 def about(request):
