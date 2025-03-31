@@ -6,8 +6,12 @@
     <div class="container mt-3">
         <div class="text-center mt-5">
             <h1 class="text-center">This is home page</h1>
+            {% if length > 0 %}
+                <h2>Found {{length}} products</h2>
+            {% else %}
+                <h2>No products were found</h2>
+            {% endif %}
             <div class="row row-cols-1 row-cols-md-3 g-4">
-
                     {% for product in products %}
                     <div class="col">
                         <div class="card h-100 shadow-sm">

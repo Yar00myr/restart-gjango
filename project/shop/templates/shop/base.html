@@ -85,6 +85,22 @@
                         onchange="this.form.submit()"
                         value="{{request.GET.max_price|default:''}}"
                         >
+                        <label for="start_date">From</label>
+                        <input 
+                        type="date" 
+                        name="start_date"
+                        class="w-25 form-control"
+                        onchange="this.form.submit()"
+                        value="{{request.GET.min_price|default:''}}"
+                        >
+                        <label for="end_date">To</label>
+                        <input 
+                        type="date" 
+                        name="end_date"
+                        class="w-25 form-control"
+                        onchange="this.form.submit()"
+                        value="{{request.GET.max_price|default:''}}"
+                        >
                     </form>
                 </div>
             </div>
