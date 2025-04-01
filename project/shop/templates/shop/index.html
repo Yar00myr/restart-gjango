@@ -7,9 +7,9 @@
         <div class="text-center mt-5">
             <h1 class="text-center">This is home page</h1>
             {% if length > 0 %}
-                <h2>Found {{length}} products</h2>
+                <h2 class="text-center">Found {{length}} products</h2>
             {% else %}
-                <h2>No products were found</h2>
+                <h2 class="text-center">No products were found</h2>
             {% endif %}
             <div class="row row-cols-1 row-cols-md-3 g-4">
                     {% for product in products %}
