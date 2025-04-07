@@ -6,7 +6,7 @@ from shop.models import Category, Product
 
 class Command(BaseCommand):
 
-    hepl = "Generates test data for databases"
+    _help = "Generates test data for databases"
 
     def handle(self, *args, **options):
         fake = Faker()

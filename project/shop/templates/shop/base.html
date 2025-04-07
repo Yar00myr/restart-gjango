@@ -14,6 +14,35 @@
                 <div class="navbar-nav w-100 text-start">
                     <a href="{% url 'shop:home' %}" class="navbar-brand">Home</a>
                 </div>
+
+                <div class="callapse navbar-collapse w-100">
+                    <ul class="navbar-nav ms-auto">
+                        {% if request.user.is_authenticated %}
+                            
+                                <li class="nav-item">
+                                    <a href="{% url 'account:profile' %}" class="nav-link">
+                                        {{ request.user.username }}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'account:logout' %}" class="nav-link">
+                                        Log Out
+                                    </a>
+                                </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a href="{% url 'account:register' %}" class="navbar-brand">
+                                    Register
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'account:login' %}" class="navbar-brand">
+                                    Login
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
                 
                 <div class="nav-item text-light">
                     <form 
@@ -106,7 +135,8 @@
                         value="{{request.GET.max_price|default:''}}"
                         >
                     </form>
-                    <a href="{% url 'account:register' %}" class="navbar-brand">Register</a>
+
+
                 </div>
             </div>
         </nav>
