@@ -6,5 +6,5 @@
         <li>Username: {{request.user.username}}</li>
         <li>Email: {{request.user.email}}</li>
     </ul>
-    <a href="{% url 'password_change' %}">Change password</a>
+    <a href="{% url 'account:password_change' %}">Change password</a>
 {% endblock %}
