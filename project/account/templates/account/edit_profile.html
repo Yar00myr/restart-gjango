@@ -1,0 +1,16 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h2>Edit profile</h2>
+    {% if profile.avatar %}
+        <p>Current Avatar:</p>
+        <img src="{{profile.avatar.url}}" alt="avatar" width="150">
+    {% else %}
+        <p>No Avatar</p>
+    {% endif %}
+    <form enctype="multipart/form-data" method="post">
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
