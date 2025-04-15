@@ -1,0 +1,10 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <div class="alert alert-success">
+        Mail successfully confirmed!
+        {{ request.user.email }}
+    </div>
+    <a href="{% url 'account:profile' %}">Back to profile</a>
+
+{% endblock %}
