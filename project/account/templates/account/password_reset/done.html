@@ -1,0 +1,7 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h2 class="text-success">Letter Sent</h2>
+    <p>Check you email address. Note: Remember to check the spam folder</p>
+    <a href="{% url 'account:login' %}">Go to Login</a>
+{% endblock %}
