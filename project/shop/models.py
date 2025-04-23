@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Seller(models.Model):
@@ -38,7 +39,7 @@ class Product(models.Model):
     rating = models.FloatField(default=0.0)
     attributes = models.JSONField(default=dict)
     price = models.DecimalField(default=0.0, max_digits=8, decimal_places=2)
-    discount = models.DecimalField(default=0.0,max_digits=8, decimal_places=2)
+    discount = models.DecimalField(default=0.0, max_digits=8, decimal_places=2)
 
     def __str__(self):
         return f"{self.name}, {self.nomenclature}"
@@ -47,3 +48,54 @@ class Product(models.Model):
         ordering = ["-created_at"]
         db_table = "products"
         unique_together = ["name", "description"]
+
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cart")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s cart "
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.product.name} : {self.amount}"
+
+
+class Order(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="orders"
+    )
+    contact_name = models.CharField(max_length=100)
+    contact_phone = models.CharField(max_length=20)
+    contact_email = models.EmailField()
+    address = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Status(models.IntegerChoices):
+        NEW = 1
+        PROCESSING = 2
+        SHIPPED = 3
+        COMPLETED = 4
+        CANCELED = 5
+
+    status = models.IntegerField(choices=Status, default=Status.NEW)
+    is_paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Order #{self.id}"
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.order.id} : {self.product.name} : {self.amount} : {self.price}"
