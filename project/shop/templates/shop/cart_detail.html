@@ -22,7 +22,6 @@
                                 <td>{{item.product.price}}</td>
                                 <td><a href="{% url 'shop:cart_remove' item.product.id %}" class="btn btn-sm btn-outline-danger" title="Remove item"> x </a></td>
                             </tr>
-
                         {% endfor %}
                         <tr class="table-secondary">
                             <td class="taxt-start">
@@ -34,10 +33,11 @@
                         </tr>
                     </tbody>
                 </table>
+                <a href="{% url 'shop:checkout' %}" class="btn btn-success"> Order</a>
             </div>
         {% else %}
             <div class="alert alert-info" role="alert">
-                Your cart is empty
+                Your cart is empty  
             </div>
         {% endif %}
     </div>

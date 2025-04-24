@@ -1,0 +1,12 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h2>Order checkout</h2>
+    <form action="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input class="btn btn-primary" type="submit" value="Complete order">
+        <
+    </form>
+
+{% endblock %}

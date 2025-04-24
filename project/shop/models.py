@@ -72,7 +72,7 @@ class Order(models.Model):
         User, on_delete=models.SET_NULL, null=True, related_name="orders"
     )
     contact_name = models.CharField(max_length=100)
-    contact_phone = models.CharField(max_length=20)
+    contact_phone = models.CharField(max_length=20, default="000-000-0000")
     contact_email = models.EmailField()
     address = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -99,3 +99,23 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.order.id} : {self.product.name} : {self.amount} : {self.price}"
+
+
+class Payment(models.Model):
+    order = models.OneToOneField(
+        Order, on_delete=models.CASCADE, related_name="payment"
+    )
+    provider = models.CharField(
+        max_length=20,
+        choices={"liqpay": "LiqPay", "monopay": "MonoPay", "google": "Google Pay"},
+    )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Status(models.IntegerChoices):
+        PENDING = 1
+        PAID = 2
+        FAILED = 3
+
+    status = models.IntegerField(choices=Status, default=Status.PENDING)
+    transaction_id = models.CharField(max_length=100, blank=100)
+    created_at = models.DateTimeField(auto_now_add=True)
