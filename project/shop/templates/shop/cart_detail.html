@@ -21,6 +21,7 @@
                                 <td>{{item.amount}}</td>
                                 <td>{{item.product.price}}</td>
                                 <td><a href="{% url 'shop:cart_remove' item.product.id %}" class="btn btn-sm btn-outline-danger" title="Remove item"> x </a></td>
+                                <td><a href="{% url 'shop:cart_add' item.product.id %}" class="btn btn-sm btn-outline-success" title="Add"> + </a></td>
                             </tr>
                         {% endfor %}
                         <tr class="table-secondary">

@@ -119,14 +119,26 @@ def cart_remove(request, product_id: int):
     product = get_object_or_404(Product, id=product_id)
     if not request.user.is_authenticated:
         cart = request.session.get(settings.CART_SESSION_ID, {})
-        cart.pop(str(product_id), None)
+        cart[product_id] -= 1
+
         request.session[settings.CART_SESSION_ID] = cart
     else:
-        cart = Cart.objects.filter(user=request.user).first()
-        if cart:
-            cart_item = cart.items.filter(product=product).first()
-            if cart_item:
+        try:
+
+            cart, _ = Cart.objects.get_or_create(user=request.user)
+            cart_item, created = CartItem.objects.get_or_create(
+                cart=cart, product=product
+            )
+            if not created:
+                cart_item.amount -= 1
+                if cart_item.amount <= 0:
+                    cart_item.delete()
+                else:
+                    cart_item.save()
+            else:
                 cart_item.delete()
+        except Cart.DoesNotExist:
+            messages.warning(request, "Your cart empty")
     return redirect("shop:cart_details")
 
 
@@ -177,16 +189,15 @@ def checkout(request):
                     for item in cart_items
                 ]
             )
-            
-            total_price = sum(item.product*item.amount for item in items)
+
+            total_price = sum(item.product * item.amount for item in items)
             method = form.cleaned_data.get("payment_method")
             if method != "cash":
                 Payment.objects.create(order=order, provider=method, amount=total_price)
             else:
                 order.status = 2
             order.save()
-            
-            
+
             if request.user.is_authenticated:
                 cart.items.all().delete()
             else:
