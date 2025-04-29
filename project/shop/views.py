@@ -4,7 +4,7 @@ from django.conf import settings
 from .models import Product, Category, Cart, CartItem, Order, OrderItem, Payment
 from .forms import OrderCreateForm
 
-from utils.email import send_order_confirmation_email
+from utils import send_order_confirmation_email
 
 
 def home(request):
@@ -74,7 +74,7 @@ def cart_add(request, product_id: int):
             cart[product_id] = 1
         request.session[settings.CART_SESSION_ID] = cart
     else:
-        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart = request.user.cart
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
         if not created:
             cart_item.amount += 1
@@ -119,13 +119,13 @@ def cart_remove(request, product_id: int):
     product = get_object_or_404(Product, id=product_id)
     if not request.user.is_authenticated:
         cart = request.session.get(settings.CART_SESSION_ID, {})
-        cart[product_id] -= 1
+        cart[str(product_id)] -= 1
 
         request.session[settings.CART_SESSION_ID] = cart
     else:
         try:
 
-            cart, _ = Cart.objects.get_or_create(user=request.user)
+            cart = request.user.cart
             cart_item, created = CartItem.objects.get_or_create(
                 cart=cart, product=product
             )
@@ -163,7 +163,7 @@ def checkout(request):
         if form.is_valid():
             order = form.save(commit=False)
             if request.user.is_authenticated:
-                order, user = request.user
+                order.user = request.user
             order.save()
 
             if request.user.is_authenticated:
@@ -190,7 +190,7 @@ def checkout(request):
                 ]
             )
 
-            total_price = sum(item.product * item.amount for item in items)
+            total_price = sum(item.product.price * item.amount for item in items)
             method = form.cleaned_data.get("payment_method")
             if method != "cash":
                 Payment.objects.create(order=order, provider=method, amount=total_price)
