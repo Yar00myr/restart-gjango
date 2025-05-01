@@ -41,6 +41,11 @@ class Product(models.Model):
     price = models.DecimalField(default=0.0, max_digits=8, decimal_places=2)
     discount = models.DecimalField(default=0.0, max_digits=8, decimal_places=2)
 
+    @property
+    def discount_price(self):
+        if self.discount:
+            return round(self.price - (self.price * self.discount / 100), 2)
+
     def __str__(self):
         return f"{self.name}, {self.nomenclature}"
 
@@ -65,6 +70,14 @@ class CartItem(models.Model):
 
     class Meta:
         unique_together = ("cart", "product")
+
+    @property
+    def item_total(self):
+        return (
+            self.product.price * self.amount
+            if not self.product.discount
+            else self.product.discount_price * self.amount
+        )
 
     def __str__(self):
         return f"{self.product.name} : {self.amount}"
