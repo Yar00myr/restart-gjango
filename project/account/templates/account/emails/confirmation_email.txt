@@ -1,20 +1,20 @@
-Вітаємо, {{ order.contact_name }}!
+Welcome, {{ order.contact_name }}!
 
-Дякуємо за ваше замовлення №{{ order.id }} від {{ order.created_at|date:"d.m.Y H:i" }}.
-Ми успішно отримали ваше замовлення і починаємо його обробку.
+Thank you for your order №{{ order.id }} from {{ order.created_at|date:"d.m.Y H:i" }}.
+We have successfully received your order and are starting to process it.
 
-Склад замовлення:
+Order details:
 {% for item in order.items.all %}
-- {{ item.product.name }} – {{ item.quantity }} шт. по {{ item.price }} грн (разом {{ item.quantity|mul:item.price }} грн)
+- {{ item.product.name }} – {{ item.quantity }} pcs. at {{ item.price }} USD (total {{ item.quantity|mul:item.price }} USD)
 {% endfor %}
 
-Сума до сплати: {{ order.items.all|calc_total }} грн.
+Total amount due: {{ order.items.all|calc_total }} USD.
 
-Адреса доставки: {{ order.address }}
+Delivery address: {{ order.address }}
 
-Статус замовлення: {{ order.get_status_display }} (ми повідомимо, коли він зміниться).
+Order status: {{ order.get_status_display }} (we will notify you when it changes).
 
-Якщо у вас виникли питання, відповідайте на цей лист або телефонуйте нам.
+If you have any questions, please reply to this email or call us.
 
-З повагою,
-Інтернет-магазин Django Shop
+Sincerely,
+Django Shop Online Store

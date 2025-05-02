@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from shop.models import Order
 
+
 def send_confirmation_mail(request, user, email, confirm_email: str) -> None:
     confirm_url = request.build_absolute_uri(reverse(f"account:{confirm_email}"))
     confirm_url += f"?user={user.id}&email={email}"
@@ -23,7 +24,7 @@ def send_confirmation_mail(request, user, email, confirm_email: str) -> None:
 def send_order_confirmation_email(order: Order):
     subject = f"confirmation order {order.id}"
     context = {"order": order}
-    text_context = render_to_string("email/confirmation_email.html", context)
+    text_context = render_to_string("account/emails/confirmation_email.txt", context)
     to_email = order.contact_email
     try:
         send_mail(

@@ -174,7 +174,7 @@ def checkout(request):
                 cart_items = []
                 for product_id, amount in cart.items():
                     product = Product.objects.get(id=product_id)
-                    cart_items.append({"product": product}, {"amount": amount})
+                    cart_items.append({"product": product, "amount": amount})
 
             items = OrderItem.objects.bulk_create(
                 [
@@ -202,8 +202,8 @@ def checkout(request):
                 cart.items.all().delete()
             else:
                 request.session[settings.CART_SESSION_ID] = {}
-                send_order_confirmation_email(order=order)
-                messages.success(request, "Text")
-                return redirect("shop:index")
+            send_order_confirmation_email(order=order)
+            messages.success(request, "Text")
+            return redirect("shop:index")
 
     return render(request, "shop/checkout.html", {"form": form})
