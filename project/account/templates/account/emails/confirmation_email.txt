@@ -5,10 +5,10 @@ We have successfully received your order and are starting to process it.
 
 Order details:
 {% for item in order.items.all %}
-- {{ item.product.name }} – {{ item.quantity }} pcs. at {{ item.price }} USD (total {{ item.quantity|mul:item.price }} USD)
+- {{ item.product.name }} – {{ item.amount }} pcs. for {{ item.price }} USD (total {{ item.total_price }} USD)
 {% endfor %}
 
-Total amount due: {{ order.items.all|calc_total }} USD.
+Total amount due: {{ order_total }} USD.
 
 Delivery address: {{ order.address }}
 

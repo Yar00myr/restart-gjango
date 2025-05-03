@@ -23,9 +23,11 @@ def send_confirmation_mail(request, user, email, confirm_email: str) -> None:
 
 def send_order_confirmation_email(order: Order):
     subject = f"confirmation order {order.id}"
-    context = {"order": order}
+    order_total = sum(item.total_price for item in order.items.all())
+    context = {"order": order, "order_total": order_total}
     text_context = render_to_string("account/emails/confirmation_email.txt", context)
     to_email = order.contact_email
+
     try:
         send_mail(
             subject,

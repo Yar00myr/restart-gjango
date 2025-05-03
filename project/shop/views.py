@@ -204,6 +204,6 @@ def checkout(request):
                 request.session[settings.CART_SESSION_ID] = {}
             send_order_confirmation_email(order=order)
             messages.success(request, "Text")
-            return redirect("shop:index")
+            return redirect("shop:home")
 
     return render(request, "shop/checkout.html", {"form": form})
