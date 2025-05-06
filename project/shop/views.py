@@ -106,7 +106,7 @@ def cart_details_view(request):
             total_price = 0
         else:
             cart_items = cart.items.select_related("product").all()
-            total_price = sum(item.product.price * item.amount for item in cart_items)
+            total_price = sum(item.item_total for item in cart_items)
 
     return render(
         request,
@@ -190,7 +190,7 @@ def checkout(request):
                 ]
             )
 
-            total_price = sum(item.product.price * item.amount for item in items)
+            total_price = sum(item.total_price for item in items)
             method = form.cleaned_data.get("payment_method")
             if method != "cash":
                 Payment.objects.create(order=order, provider=method, amount=total_price)
