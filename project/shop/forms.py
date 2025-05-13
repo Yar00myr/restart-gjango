@@ -28,3 +28,4 @@ class OrderCreateForm(forms.ModelForm):
             "address": "Your address",
             "payment_method": "Payment Method",
         }
+

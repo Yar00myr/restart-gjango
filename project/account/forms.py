@@ -31,3 +31,7 @@ class ProfileUpdateForm(forms.Form):
         super().__init__(*args, **kwargs)
         if self.user:
             self.fields["email"].initial = self.user.email
+
+class LoginForm(forms.Form):
+    username = forms.CharField(required=True, label="login")
+    password = forms.PasswordInput()
