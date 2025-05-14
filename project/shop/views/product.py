@@ -1,6 +1,7 @@
-from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.filters import OrderingFilter
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from ..models import Product
 from ..serializers import ProductSerializer
 
