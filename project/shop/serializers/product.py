@@ -26,3 +26,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_discount_price(self, obj):
         return obj.discount_price
+
+    def clean_price(self, value):
+        raise serializers.ValidationError("")

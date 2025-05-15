@@ -3,6 +3,9 @@ from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, extend_schema_view
+
 
 from utils.email import send_order_confirmation_email
 from ..models import Cart, CartItem, Product, Order, OrderItem, Payment
@@ -11,7 +14,10 @@ from ..forms import OrderCreateForm
 
 
 class CartViewSet(ModelViewSet):
-    @action(detail=False, methods=["post"], url_path="add-product/<product_id>/")
+
+    queryset = CartItem.objects.all()
+
+    @action(detail=False, methods=["post"], url_path="cart-add/<product_id>")
     def add(self, request, product_id=None):
         product = get_object_or_404(Product, id=product_id)
         if request.user.is_authenticated:
@@ -32,7 +38,7 @@ class CartViewSet(ModelViewSet):
             {"message": f"product with id:{product_id} successfully added"}, status=200
         )
 
-    @action(detail=False, methods=["get"], url_path="get-cart-items/")
+    @action(detail=False, methods=["get"], url_path="cart-items")
     def detail(self, request):
         if request.user.is_authenticated:
             cart = request.user.cart
