@@ -13,14 +13,14 @@ class ProductSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "entity",
-            "price",
             "available",
             "category",
             "nomenclature",
             "created_at",
             "rating",
-            "discount",
             "attributes",
+            "price",
+            "discount",
             "discount_price",
         ]
 
