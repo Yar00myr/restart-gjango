@@ -9,13 +9,16 @@ from drf_spectacular.utils import extend_schema, extend_schema_view
 
 from utils.email import send_order_confirmation_email
 from ..models import Cart, CartItem, Product, Order, OrderItem, Payment
-from ..serializers import CartItemSerializer, CartSerializer, ProductSerializer
+from ..serializers import CartSerializer, ProductSerializer
 from ..forms import OrderCreateForm
+
 
 
 class CartViewSet(ModelViewSet):
 
     queryset = CartItem.objects.all()
+    
+    serializer_class = CartSerializer
 
     @action(detail=False, methods=["post"], url_path="cart-add/<product_id>")
     def add(self, request, product_id=None):

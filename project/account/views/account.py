@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
-from rest_framework.permissions import isinstance, AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
 
 from utils.email import send_confirmation_mail
@@ -15,7 +15,7 @@ from shop.models import Product, CartItem
 class AccountViewSet(ViewSet):
     permission_classes = [AllowAny]
 
-    @action(default=True, methods=["past"])
+    @action(detail=True, methods=["past"])
     def register(self, request):
         form = RegisterForm(request.data)
         if form.is_valid():

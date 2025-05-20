@@ -1,5 +1,6 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
+from rest_framework.routers import DefaultRouter
 from .views.views import (
     register,
     login_view,
@@ -9,9 +10,14 @@ from .views.views import (
     confirm_email,
     confirm_registration,
 )
+from .views.account import AccountViewSet
+
 
 app_name = "account"
 
+router = DefaultRouter()
+
+router.register(prefix=r"account", viewset=AccountViewSet, basename="account")
 
 urlpatterns = [
     path("register/", register, name="register"),
@@ -68,3 +74,5 @@ urlpatterns = [
         name="password_reset_complete",
     ),
 ]
+
+urlpatterns += router.urls

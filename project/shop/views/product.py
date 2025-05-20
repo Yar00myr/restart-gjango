@@ -34,13 +34,21 @@ from ..serializers import ProductSerializer
                 type=OpenApiTypes.STR,
                 description="Order products by **price and rating**",
                 examples=[
-                    OpenApiExample(name="No filter"),
+                    OpenApiExample(name="Default", value="", description="No ordering"),
                     OpenApiExample(name="Increasing Price", value="price"),
                     OpenApiExample(name="Decreasing Price", value="-price"),
                     OpenApiExample(name="Increasing Rating", value="rating"),
                     OpenApiExample(name="Decreasing Rating", value="-rating"),
                 ],
                 default="",
+            ),
+            OpenApiParameter(
+                name="search",
+                type=OpenApiTypes.STR,
+                description="Search products by name or description.",
+                examples=[
+                    OpenApiExample(name="Search by keyword", value="laptop"),
+                ],
             ),
         ],
     ),
@@ -52,9 +60,9 @@ from ..serializers import ProductSerializer
     ),
 )
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.select_related("category".all())
+    queryset = Product.objects.select_related("category").all()
     serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_class = ProductFilter
     ordering_fields = ["price", "rating"]
     search_fields = ["name", "description"]

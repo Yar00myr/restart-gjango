@@ -8,4 +8,4 @@ class ProductFilter(FilterSet):
 
     class Meta:
         model = Product
-        fields = ["category", "price_min", "price_max"]
+        fields = ["category"]
