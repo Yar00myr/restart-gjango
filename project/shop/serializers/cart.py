@@ -29,5 +29,5 @@ class CartSerializer(serializers.ModelSerializer):
         fields = ["user", "created_at", "items", "total"]
 
     @extend_schema_field(OpenApiTypes.DECIMAL)
-    def get_total(self, obj):
-        return sum([item.item_total for item in obj.items.all()])
+    def get_total(self, obj) -> float:
+        return obj.total

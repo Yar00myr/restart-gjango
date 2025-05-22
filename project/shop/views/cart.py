@@ -20,7 +20,7 @@ class CartViewSet(ModelViewSet):
     
     serializer_class = CartSerializer
 
-    @action(detail=False, methods=["post"], url_path="cart-add/<product_id>")
+    @action(detail=False, methods=["post"], url_path="cart-add")
     def add(self, request, product_id=None):
         product = get_object_or_404(Product, id=product_id)
         if request.user.is_authenticated:
@@ -42,7 +42,7 @@ class CartViewSet(ModelViewSet):
         )
 
     @action(detail=False, methods=["get"], url_path="cart-items")
-    def detail(self, request):
+    def items(self, request):
         if request.user.is_authenticated:
             cart = request.user.cart
             return Response(CartSerializer(cart).data)
@@ -68,7 +68,7 @@ class CartViewSet(ModelViewSet):
                 total += item_total
             return Response(
                 {
-                    "user": request.user,
+                    "user": None,
                     "created_at": None,
                     "items": items,
                     "total": total,

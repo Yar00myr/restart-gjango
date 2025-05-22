@@ -60,7 +60,7 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     @property
-    def total(self):
+    def total(self) -> float:
         return sum([item.item_total for item in self.items.all()])
     
     def __str__(self):

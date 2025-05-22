@@ -5,17 +5,24 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
+from drf_spectacular.utils import extend_schema
+from drf_spectacular.types import OpenApiTypes
 
 from utils.email import send_confirmation_mail
 from ..forms import RegisterForm, LoginForm, ProfileUpdateForm
-from ..serializers import ProfileSerializer, UserSerializer
+from ..serializers import ProfileSerializer, UserSerializer, RegisterFormSerializer
 from shop.models import Product, CartItem
 
 
 class AccountViewSet(ViewSet):
     permission_classes = [AllowAny]
+    serializer_class = UserSerializer
 
-    @action(detail=True, methods=["past"])
+    @extend_schema(
+        request=RegisterFormSerializer,
+        responses={201: OpenApiTypes.OBJECT, 400: OpenApiTypes.OBJECT},
+    )
+    @action(detail=False, methods=["past"])
     def register(self, request):
         form = RegisterForm(request.data)
         if form.is_valid():
@@ -28,7 +35,7 @@ class AccountViewSet(ViewSet):
         else:
             return Response({"errors": form.errors}, status=400)
 
-    @action(detail=True, methods=["post"])
+    @action(detail=False, methods=["post"])
     def login_view(self, request):
         form = LoginForm(request.data)
         if form.is_valid():
