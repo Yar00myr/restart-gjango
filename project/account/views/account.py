@@ -5,7 +5,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
 
 from utils.email import send_confirmation_mail
@@ -15,6 +15,7 @@ from shop.models import Product, CartItem
 
 
 class AccountViewSet(ViewSet):
+    queryset = User.objects.all()
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
 
@@ -69,7 +70,7 @@ class AccountViewSet(ViewSet):
         return Response({"message": "Successfully logout"}, status=200)
 
     @action(detail=True, methods=["get"], permission_classes=[IsAuthenticated])
-    def profile_view(self, request):
+    def profile_view(self, request, pk=None):
         profile = request.user.profile
         data = ProfileSerializer(profile).data
         return Response({"results": data}, status=200)
@@ -92,7 +93,7 @@ class AccountViewSet(ViewSet):
             return Response(form.errors, status=400)
 
     @action(detail=True, methods=["get"])
-    def confirm_email_view(self, request):
+    def confirm_email_view(self, request, pk=None):
         user_id = request.GET.get("user")
         new_email = request.GET.get("email")
         if not user_id or not new_email:

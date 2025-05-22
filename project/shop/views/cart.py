@@ -13,11 +13,10 @@ from ..serializers import CartSerializer, ProductSerializer
 from ..forms import OrderCreateForm
 
 
-
 class CartViewSet(ModelViewSet):
 
     queryset = CartItem.objects.all()
-    
+
     serializer_class = CartSerializer
 
     @action(detail=False, methods=["post"], url_path="cart-add")

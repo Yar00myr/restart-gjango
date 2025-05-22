@@ -61,7 +61,7 @@ def logout_view(request):
 
 @login_required
 def profile(request):
-    profile, _ = request.user.cart
+    profile = request.user.profile
     return render(request, "account/profile.html", {"profile": profile})
 
 
