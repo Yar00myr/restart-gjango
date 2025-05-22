@@ -22,9 +22,10 @@ class AccountViewSet(ViewSet):
         request=RegisterFormSerializer,
         responses={201: OpenApiTypes.OBJECT, 400: OpenApiTypes.OBJECT},
     )
-    @action(detail=False, methods=["past"])
+    @action(detail=False, methods=["post"])
     def register(self, request):
         form = RegisterForm(request.data)
+
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
