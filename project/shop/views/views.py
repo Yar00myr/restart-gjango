@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.conf import settings
-from ..models import Product, Category, Cart, CartItem, Order, OrderItem, Payment
+from ..models import Product, Category, Cart, CartItem, OrderItem, Payment
 from ..forms import OrderCreateForm
 
 

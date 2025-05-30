@@ -9,13 +9,13 @@ class CaptchaFieldSerializer(serializers.Serializer):
         from captcha.models import CaptchaStore
 
         try:
-            captcha = CaptchaStore.objects.get(hashkey=attrs["captcha_0"])
+            captcha = CaptchaStore.objects.get(hashkey=attrs.get("captcha_0"))
 
         except CaptchaStore.DoesNotExist:
             raise serializers.ValidationError("Incorrect Captcha")
 
         if captcha.response != attrs.get("captcha_1", "").lower():
-            raise serializers.ValidationError("Invalid captcha")
+            raise serializers.ValidationError("Incorrect  captcha")
 
         captcha.delete()
         return attrs
