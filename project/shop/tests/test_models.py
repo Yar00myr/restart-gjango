@@ -10,7 +10,7 @@ from .fixtures import product, product_with_discount
 @pytest.mark.django_db
 def test_product_model():
     category = Category.objects.create(name="test_category")
-    product = Product.object.create(
+    product = Product.objects.create(
         name="test_product",
         category=category,
         nomenclature="test_nomenclature",

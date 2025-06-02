@@ -14,6 +14,6 @@ def test_profile_creation(user):
     profile = Profile.objects.get(user=user)
     cart = Cart.objects.get(user=user)
 
-    assert profile.avatar == "avatars/washing_machine.jpg"
+    assert profile.avatar == "/avatars/washing_machine.jpg"
     assert profile.user == user
     assert cart.user == user

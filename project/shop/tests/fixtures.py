@@ -6,7 +6,7 @@ from shop.models import Category, Product
 @pytest.fixture
 def product():
     category = Category.objects.create(name="test_category")
-    return Product.object.create(
+    return Product.objects.create(
         name="test_product",
         category=category,
         nomenclature="test_nomenclature",
@@ -16,8 +16,8 @@ def product():
 
 @pytest.fixture
 def product_with_discount():
-    category = Category.objects.create(name="test_category")
-    return Product.object.create(
+    category = Category.objects.create(name="test_category_2")
+    return Product.objects.create(
         name="test_product_2",
         category=category,
         nomenclature="test_nomenclature_2",
