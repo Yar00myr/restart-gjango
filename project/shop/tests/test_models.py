@@ -49,3 +49,30 @@ def test_cart_model_different_products(user, product, product_with_discount):
 
     cart_item_2 = CartItem.objects.create(cart=user.cart, product=product_with_discount)
     assert user.cart.total == 180
+
+
+@pytest.mark.django_db
+def test_order_model_one_item(order, product):
+    order_item = OrderItem.objects.create(
+        order=order, product=product, price=product.price
+    )
+    assert order_item.amount == 1
+    assert order_item.total_price == product.price
+
+
+@pytest.mark.django_db
+def test_order_model_multiple_items(order, product):
+    order_item = OrderItem.objects.create(
+        order=order, product=product, price=product.price, amount=2
+    )
+    assert order_item.amount == 2
+    assert order_item.total_price == product.price * 2
+
+
+@pytest.mark.django_db
+def test_order_model_discount_item(order, product_with_discount):
+    order_item = OrderItem.objects.create(
+        order=order, product=product_with_discount, price=product_with_discount.price
+    )
+
+    assert order_item.total_price == 100
