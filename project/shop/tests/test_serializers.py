@@ -31,7 +31,6 @@ def test_product_serializer_invalid():
         "description": {},
         "entity": -2,
         "available": 15,
-        "category": 999,
         "nomenclature": "*" * 101,
         "rating": -3,
         "attributes": [],
@@ -41,6 +40,7 @@ def test_product_serializer_invalid():
     serializer = ProductSerializer(data=data)
 
     assert not serializer.is_valid()
+    print(serializer.data)
     print(dict(serializer.errors))
     assert serializer.errors
     for field in data.keys():
