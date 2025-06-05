@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework.test import APIClient
 
-from shop.models import Product, Cart, CartItem, Category
-from .fixtures import product, product_with_discount
+from shop.models import Product, Cart, CartItem, Category, Order, OrderItem
+from .fixtures import product, product_with_discount, order, category
 
 
 @pytest.mark.django_db
@@ -24,7 +24,6 @@ def test_product_model():
 
 @pytest.mark.django_db
 def test_cart_model_one_product(user, product):
-
     cart_item = CartItem.objects.create(cart=user.cart, product=product)
     assert cart_item.item_total == product.price
     assert user.cart.total == product.price
@@ -32,7 +31,6 @@ def test_cart_model_one_product(user, product):
 
 @pytest.mark.django_db
 def test_cart_model_multiple_product(user, product):
-
     cart_item = CartItem.objects.create(cart=user.cart, product=product, amount=2)
     assert cart_item.item_total == product.price * 2
     assert user.cart.total == product.price * 2
@@ -40,14 +38,13 @@ def test_cart_model_multiple_product(user, product):
 
 @pytest.mark.django_db
 def test_cart_model_discount_product(user, product_with_discount):
-
     cart_item = CartItem.objects.create(cart=user.cart, product=product_with_discount)
     assert cart_item.item_total == 80
     assert user.cart.total == 80
 
 
 @pytest.mark.django_db
-def test_cart_model_different_product(user, product, product_with_discount):
+def test_cart_model_different_products(user, product, product_with_discount):
     cart_item = CartItem.objects.create(cart=user.cart, product=product)
 
     cart_item_2 = CartItem.objects.create(cart=user.cart, product=product_with_discount)
