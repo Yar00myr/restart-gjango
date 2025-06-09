@@ -33,7 +33,7 @@ def test_product_serializer_invalid():
         "available": 15,
         "nomenclature": "*" * 101,
         "rating": -3,
-        "attributes": [],
+        "attributes": "*",
         "price": -100,
         "discount": -20,
     }

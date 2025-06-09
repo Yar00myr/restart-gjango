@@ -45,6 +45,8 @@ class Product(models.Model):
     def discount_price(self):
         if self.discount:
             return round(self.price - (self.price * self.discount / 100), 2)
+        else:
+            return self.price
 
     def __str__(self):
         return f"{self.name}, {self.nomenclature}"
@@ -62,7 +64,7 @@ class Cart(models.Model):
     @property
     def total(self) -> float:
         return sum([item.item_total for item in self.items.all()])
-    
+
     def __str__(self):
         return f"{self.user.username}'s cart "
 

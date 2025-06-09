@@ -72,7 +72,24 @@ def test_order_model_multiple_items(order, product):
 @pytest.mark.django_db
 def test_order_model_discount_item(order, product_with_discount):
     order_item = OrderItem.objects.create(
-        order=order, product=product_with_discount, price=product_with_discount.price
+        order=order,
+        product=product_with_discount,
+        price=product_with_discount.discount_price,
     )
 
-    assert order_item.total_price == 100
+    assert order_item.total_price == 80
+
+
+@pytest.mark.django_db
+def test_order_model_different_items(order, product_with_discount, product):
+    order_item_1 = OrderItem.objects.create(
+        order=order, product=product, price=product.discount_price
+    )
+
+    order_item_2 = OrderItem.objects.create(
+        order=order,
+        product=product_with_discount,
+        price=product_with_discount.discount_price,
+    )
+
+    assert order_item_1.total_price + order_item_2.total_price == 180
