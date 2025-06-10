@@ -32,7 +32,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.FLOAT)
     def get_discount_price(self, obj):
-        return obj.discount_price
+        if obj.get("discount_price"):
+            return obj.get("discount_price")
 
     def validate_price(self, value):
         if value <= 0:

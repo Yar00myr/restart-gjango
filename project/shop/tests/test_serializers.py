@@ -54,3 +54,24 @@ def test_product_serializer_invalid():
         in serializer.errors["nomenclature"]
     )
     assert "Rating must be >= 0" in serializer.errors["rating"]
+
+
+@pytest.mark.django_db
+def test_product_serializer_read_only(category):
+    data = {
+        "name": "test_name",
+        "description": "test_description",
+        "entity": 2,
+        "available": True,
+        "category": category.id,
+        "nomenclature": "test_nomenclature",
+        "rating": 3,
+        "attributes": {},
+        "price": 100,
+        "discount": 20,
+    }
+    
+    serializer = ProductSerializer(data=data)
+    
+    assert serializer.is_valid()
+    assert "category" not in serializer.data
