@@ -32,8 +32,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.FLOAT)
     def get_discount_price(self, obj):
-        if obj.get("discount_price"):
-            return obj.get("discount_price")
+        return getattr(obj, "discount_price", None)
 
     def validate_price(self, value):
         if value <= 0:
@@ -73,5 +72,5 @@ class ProductSerializer(serializers.ModelSerializer):
             return value
         try:
             return json.loads(value)
-        except Exception :
+        except Exception:
             raise serializers.ValidationError(f"Attributes must be JSON")

@@ -1,7 +1,7 @@
 import pytest
 
-from shop.serializers import ProductSerializer
-from .fixtures import category
+from shop.serializers import ProductSerializer, OrderSerializer
+from .fixtures import category, product_with_discount, product, order
 
 
 @pytest.mark.django_db
@@ -70,8 +70,45 @@ def test_product_serializer_read_only(category):
         "price": 100,
         "discount": 20,
     }
-    
+
     serializer = ProductSerializer(data=data)
-    
+
     assert serializer.is_valid()
     assert "category" not in serializer.data
+
+
+@pytest.mark.django_db
+def test_product_serializer_method_field(product_with_discount):
+    serializer = ProductSerializer(product_with_discount)
+
+    assert serializer.data["discount_price"] == product_with_discount.discount_price
+    assert serializer.data["discount_price"] == 80
+
+
+@pytest.mark.django_db
+def test_order_serializer_read_only(user, order):
+    data = {
+        "user": user.id,
+        "contact_name": "test-name",
+        "contact_phone": "0123456767",
+        "contact_email": "test@gmail.com",
+        "address": "test-address",
+    }
+    serializer = OrderSerializer(data=data)
+
+    assert serializer.is_valid()
+    assert "items" not in serializer.validated_data
+
+    serializer = OrderSerializer(order)
+
+    assert "items" in serializer.data
+
+
+@pytest.mark.django_db
+def test_order_serializer_items(order):
+
+    serializer = OrderSerializer(order)
+
+    items = serializer.data["items"]
+
+    assert len(items) == 2
