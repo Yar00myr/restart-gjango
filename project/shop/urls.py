@@ -14,9 +14,9 @@ from .views.views import (
 app_name = "shop"
 
 router = DefaultRouter()
-router.register(prefix=r"categories", viewset=CategoryViewSet, basename="CategoryView")
-router.register(prefix=r"products", viewset=ProductViewSet, basename="ProductView")
-router.register(prefix=r"carts", viewset=CartViewSet, basename="CartView")
+router.register(prefix=r"categories", viewset=CategoryViewSet, basename="category")
+router.register(prefix=r"products", viewset=ProductViewSet, basename="product")
+router.register(prefix=r"carts", viewset=CartViewSet, basename="cart")
 
 urlpatterns = [
     path("", home, name="home"),

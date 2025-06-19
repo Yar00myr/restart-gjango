@@ -4,7 +4,14 @@ from shop.models import Category, Product, Order, OrderItem
 
 
 @pytest.fixture
+def category():
+    return Category.objects.create(name="test_category")
+
+
+@pytest.fixture
 def product(category):
+
+    # category = Category.objects.create(name="test_category_1")
 
     return Product.objects.create(
         name="test_product",
@@ -15,12 +22,9 @@ def product(category):
 
 
 @pytest.fixture
-def category():
-    return Category.objects.create(name="test_category")
-
-
-@pytest.fixture
 def product_with_discount(category):
+
+    # category = Category.objects.create(name="test_category_2")
 
     return Product.objects.create(
         name="test_product_2",
