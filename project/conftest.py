@@ -1,13 +1,16 @@
 import os
+import django.contrib
+import django.contrib.auth
+import django.contrib.auth.models
 import pytest
 import django
-
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 django.setup()
 
 from rest_framework.test import APIClient
+
 
 @pytest.fixture
 def user():
@@ -20,3 +23,10 @@ def user():
 def api_client():
     apiclient = APIClient()
     return apiclient
+
+
+@pytest.fixture
+def super_user():
+    return django.contrib.auth.models.User.objects.create_superuser(
+        username="test_super_username", password="test_super_password"
+    )
