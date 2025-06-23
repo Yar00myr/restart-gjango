@@ -16,6 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
+            "id",
             "name",
             "description",
             "entity",
@@ -48,12 +49,6 @@ class ProductSerializer(serializers.ModelSerializer):
         if value < 0:
             raise serializers.ValidationError("Rating must be >= 0")
         return value
-
-    def validate_attributes(self, value):
-        if not isinstance(value, dict):
-            raise serializers.ValidationError("Attributes must be a dictionary.")
-        else:
-            return value
 
     def validate_discount(self, value):
         if value < 0:

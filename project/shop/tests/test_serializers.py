@@ -21,7 +21,6 @@ def test_product_serializer_valid(category):
     serializer = ProductSerializer(data=data)
 
     assert serializer.is_valid()
-    assert not serializer.errors
 
 
 @pytest.mark.django_db

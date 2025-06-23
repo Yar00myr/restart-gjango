@@ -49,7 +49,7 @@ def test_product_detail_not_found(api_client):
 
 @pytest.mark.django_db
 def test_product_update_not_authorized(api_client, product):
-    url = reverse("shop:product-update", kwargs={"pk": product.id})
+    url = reverse("shop:product-detail", kwargs={"pk": product.id})
 
     response = api_client.patch(url, data={"price": 200})
 
@@ -64,7 +64,7 @@ def test_update_product(api_client, super_user, product):
     response = api_client.patch(url, data={"price": 100}, format="json")
 
     assert response.status_code == 200
-    assert response.data.get("price") == 100
+    assert float(response.data.get("price")) == 100
     assert product.price == 100
 
 
@@ -72,8 +72,8 @@ def test_update_product(api_client, super_user, product):
 def test_create_product(api_client, super_user, category):
     url = reverse("shop:product-list")
     data = {
-        "name": "test_name",
-        "description": "test_description",
+        "name": "test_name_1",
+        "description": "test_description_1",
         "entity": 1,
         "category": category.id,
         "nomenclature": str(uuid.uuid4()),
@@ -85,3 +85,18 @@ def test_create_product(api_client, super_user, category):
     assert response.status_code == 201
     assert response.data.get("name") == "test_name"
     assert Product.objects.filter(id=response.data.get("id")).exists()
+
+
+@pytest.mark.django_db
+def test_product_create_not_authorized(api_client, category):
+    url = reverse("shop:product-list")
+
+    data = {
+        "name": "test-product",
+        "category": category.id,
+        "nomenclature": uuid.uuid4(),
+    }
+
+    response = api_client.post(url, data=data)
+
+    assert response.status_code == 403

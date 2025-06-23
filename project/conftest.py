@@ -1,7 +1,4 @@
 import os
-import django.contrib
-import django.contrib.auth
-import django.contrib.auth.models
 import pytest
 import django
 

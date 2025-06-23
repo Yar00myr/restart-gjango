@@ -10,9 +10,6 @@ def category():
 
 @pytest.fixture
 def product(category):
-
-    # category = Category.objects.create(name="test_category_1")
-
     return Product.objects.create(
         name="test_product",
         category=category,
@@ -23,9 +20,6 @@ def product(category):
 
 @pytest.fixture
 def product_with_discount(category):
-
-    # category = Category.objects.create(name="test_category_2")
-
     return Product.objects.create(
         name="test_product_2",
         category=category,
