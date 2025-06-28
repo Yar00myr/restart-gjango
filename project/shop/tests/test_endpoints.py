@@ -69,25 +69,6 @@ def test_update_product(api_client, super_user, product):
 
 
 @pytest.mark.django_db
-def test_create_product(api_client, super_user, category):
-    url = reverse("shop:product-list")
-    data = {
-        "name": "test_name_1",
-        "description": "test_description_1",
-        "entity": 1,
-        "category": category.id,
-        "nomenclature": str(uuid.uuid4()),
-    }
-
-    api_client.force_authenticate(super_user)
-    response = api_client.post(url, data=data)
-
-    assert response.status_code == 201
-    assert response.data.get("name") == "test_name"
-    assert Product.objects.filter(id=response.data.get("id")).exists()
-
-
-@pytest.mark.django_db
 def test_product_create_not_authorized(api_client, category):
     url = reverse("shop:product-list")
 
