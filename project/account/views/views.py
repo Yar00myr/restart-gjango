@@ -16,7 +16,7 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            send_confirmation_mail(request, user, user.email, "confirm_registration")
+            send_confirmation_mail(request, user, user.email)
             return redirect("shop:home")
     else:
         form = RegisterForm()
